@@ -1,0 +1,32 @@
+{
+	"presets": [
+		"@vue/cli-plugin-babel/preset",
+		[
+			"@babel/preset-env",
+			{
+				"useBuiltIns": "entry"
+			}
+		],
+		"@babel/preset-react"
+	],
+	"plugins": [
+		[
+			"@babel/plugin-transform-runtime",
+			{
+				"absoluteRuntime": false,
+				"corejs": 2,
+				"helpers": true,
+				"regenerator": true,
+				"useESModules": false,
+				"version": "7.0.0-beta.0"
+			}
+		],
+		["@babel/plugin-proposal-class-properties", { "loose": true }],
+		[
+			"transform-react-jsx",
+			{
+				"pragma": "React.createElement"
+			}
+		]
+	]
+}
