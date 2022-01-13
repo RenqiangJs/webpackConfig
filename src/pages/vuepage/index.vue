@@ -1,5 +1,5 @@
 <template>
-  <div class="root">vuepage</div>
+  <div class="root">vuepage123</div>
 </template>
 <script>
 export default {}
@@ -7,5 +7,6 @@ export default {}
 <style lang="less" scoped>
 .root {
   color: red;
+  display: flex;
 }
 </style>

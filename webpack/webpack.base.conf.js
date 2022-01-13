@@ -2,12 +2,12 @@ const path = require('path');
 const utils = require('./utils');
 const config = require('./config');
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 function resolve(dir) {
 	return path.join(__dirname, '..', dir);
 }
-console.log(resolve('src'));
 module.exports = {
 	context: path.resolve(__dirname, '../'),
 	entry: utils.entries(),
@@ -64,13 +64,59 @@ module.exports = {
 			},
 			{
 				test: /\.less$/,
-				use: ['vue-style-loader', 'css-loader', 'less-loader'],
+				use: [
+					MiniCssExtractPlugin.loader,
+					'css-loader',
+					{
+						loader: 'postcss-loader',
+						options: {
+							postcssOptions: {
+								plugins: ['postcss-preset-env'],
+							},
+						},
+					},
+					{
+						loader: 'less-loader',
+						options: {
+							strictMath: true,
+							noIeCompat: true,
+						},
+					},
+				],
+			},
+			{
+				test: /\.css$/,
+				use: [
+					'css-loader',
+					{
+						loader: MiniCssExtractPlugin.loader,
+						options: {
+							esModule: false,
+						},
+					},
+					{
+						loader: 'postcss-loader',
+						options: {
+							postcssOptions: {
+								parser: 'postcss-js',
+							},
+							execute: true,
+						},
+					},
+				],
 			},
 		],
 	},
 	plugins: [
 		new webpack.DefinePlugin({
 			envConfig: JSON.stringify(process.env.NODE_ENV),
+		}),
+		new MiniCssExtractPlugin({
+			// Options similar to the same options in webpackOptions.output
+			// all options are optional
+			filename: '[name].css',
+			chunkFilename: '[id].css',
+			ignoreOrder: false, // Enable to remove warnings about conflicting order
 		}),
 		new CleanWebpackPlugin(),
 		new VueLoaderPlugin(), // vue-loader

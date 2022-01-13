@@ -37,7 +37,6 @@ exports.htmlPlugin = function () {
 		} else {
 			filename = `${config.publicPath}/${entry}.html`;
 		}
-		console.log(templatePath, 'templatePath');
 		let conf = {
 			template: templatePath,
 			filename,
